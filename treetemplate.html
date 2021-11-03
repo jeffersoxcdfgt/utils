@@ -22,3 +22,60 @@
       <button class="mybutton"  id="step3" (click)="step3()" >HCPS</button>
     </div>
  </section>
+
+
+
+<!--<ul>
+  <ng-template #recursiveList let-list3>
+    <li *ngFor="let item of list3">
+      {{item.title}}
+      <ul *ngIf="item.children && item.children.length > 0">
+        <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list3 }"></ng-container>
+</ul>-->
+
+
+<!--<mat-tab-group>
+  <ng-template #recursiveList let-list3>
+    <mat-tab label="{{item.title}}" *ngFor="let item of list3">
+      <mat-tab-group *ngIf="item.children && item.children.length > 0">
+        <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
+      </mat-tab-group>
+    </mat-tab>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list3 }"></ng-container>
+</mat-tab-group>-->
+
+
+
+<mat-tab-group>
+  <ng-template #recursiveList let-list3>
+     <mat-tab label="{{item.title}}" *ngFor="let item of list3" >
+      <mat-tab-group *ngIf="item.children && item.children.length > 0">
+        <mat-tab  *ngFor="let child of item.children" label="{{child.title}}">jefferson</mat-tab>
+      </mat-tab-group>
+     </mat-tab>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list3 }"></ng-container>
+</mat-tab-group>
+
+
+
+
+
+
+
+<!--<section id="mysection">
+    <div class="mydiv" tabindex="0">
+      <button class="mybutton" id="step1" (click)="step1()" >PX</button>
+    </div>
+    <div class="mydiv" tabindex="0" >
+      <button class="mybutton"  id="step2" (click)="step2()" >Industry</button>
+    </div>
+    <div class="mydiv" tabindex="0">
+      <button class="mybutton"  id="step3" (click)="step3()" >HCPS</button>
+    </div>
+ </section>-->
