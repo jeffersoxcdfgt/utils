@@ -1,0 +1,24 @@
+<!--<ul>
+  <ng-template #recursiveList let-list>
+    <li *ngFor="let item of list">
+      {{item.title}}
+      <ul *ngIf="item.children.length > 0">
+        <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: item.children }"></ng-container>
+      </ul>
+    </li>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list }"></ng-container>
+</ul>-->
+
+
+<section id="mysection">
+    <div class="mydiv" tabindex="0">
+      <button class="mybutton" id="step1" (click)="step1()" >PX</button>
+    </div>
+    <div class="mydiv" tabindex="0" >
+      <button class="mybutton"  id="step2" (click)="step2()" >Industry</button>
+    </div>
+    <div class="mydiv" tabindex="0">
+      <button class="mybutton"  id="step3" (click)="step3()" >HCPS</button>
+    </div>
+ </section>
