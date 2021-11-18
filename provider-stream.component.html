@@ -1,0 +1,109 @@
+    <div class="container-fluid" [ngStyle]="{'pointer-events':showspotfire === true ? 'auto' : 'none' }">
+      <div class="container_dashboard card_class margin__info_box">
+        <div class="child">&nbsp;</div>
+        <div class="child child--featured">
+          <mat-card >
+            <div class="card_class">
+              <div class="data_margin">
+                <mat-icon
+                matTooltipPosition="right"
+                class="icon-m not_data_text"
+                [ngClass]="{
+                  'npi__data':selectInfobox === 'npi',
+                  'pos__data':selectInfobox === 'pos',
+                  'grp__data':selectInfobox === 'grp'
+                }"
+                svgIcon="ic_info">
+                </mat-icon>
+              </div>
+              <div class="vl"
+              [ngClass]="{
+                'npi__data__vertical':selectInfobox === 'npi',
+                'pos__data__vertical':selectInfobox === 'pos',
+                'grp__data__vertical':selectInfobox === 'grp'
+              }"
+              ></div>
+              <div class="cut not_data_text" *ngIf="noData === true ; else elseNodataBlock">
+                <mat-card-subtitle> {{messageNodata}} </mat-card-subtitle> 
+              </div>
+              <ng-template #elseNodataBlock>
+                <div class="description-box">
+                  <div class="row-box">
+                    <div class="cut" *ngIf="dataProvider.Name !='' && selectInfobox =='npi'" ><mat-card-subtitle> <b> Name :</b>  {{dataProvider.Name | titlecase }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Npi  !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> NPI :</b>  {{dataProvider.Npi}} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Taxonomycode !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> Taxonomy Code :</b> {{dataProvider.Taxonomycode}} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Type !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> Type :</b>  {{dataProvider.Type | titlecase }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Organization !='' && selectInfobox =='grp'"><mat-card-subtitle> <b> Organization :</b>  {{dataProvider.Organization | titlecase  }}  </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Npi  !='' && selectInfobox =='grp'"><mat-card-subtitle> <b> Group Practice Id :</b>  {{dataProvider.Npi}} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Facility !='' && selectInfobox =='pos'"><mat-card-subtitle> <b> Facility :</b>   {{dataProvider.Facility | titlecase  }}   </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Npi  !='' && selectInfobox =='pos'"><mat-card-subtitle> <b> Point of Service :</b>  {{dataProvider.Npi}}  </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Category !='' && selectInfobox =='pos'"><mat-card-subtitle> <b> Category :</b>  {{dataProvider.Category | titlecase  }}  </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Subtype !='' && selectInfobox =='pos'"><mat-card-subtitle> <b> SubType :</b>   {{dataProvider.Subtype | titlecase }}   </mat-card-subtitle> </div>
+                  </div>
+                  <div class="row-box">
+                    <div class="cut" *ngIf="dataProvider.PCPorspecyype !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> PCP or Spec Type :</b>  {{dataProvider.PCPorspecyype | titlecase }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Prefspecialtydescription !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> Pref Specialty Description : </b>  {{dataProvider.Prefspecialtydescription | titlecase }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.Providersegmenttype !='' && selectInfobox =='npi'"><mat-card-subtitle> <b> Provider Segment Type: </b> {{dataProvider.Providersegmenttype | titlecase }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.PLorgcareclasstype !='' && selectInfobox =='pos'" ><mat-card-subtitle> <b> PL Orgcare Class type :</b>  {{dataProvider.PLorgcareclasstype | titlecase  }} </mat-card-subtitle> </div>
+                    <div class="cut" *ngIf="dataProvider.PLorgcareclasssubtype !='' && selectInfobox =='pos'"><mat-card-subtitle> <b> PL Orgcare Class Subtype: </b>  {{dataProvider.PLorgcareclasssubtype | titlecase }}  </mat-card-subtitle> </div>
+                  </div>
+              </div>
+              </ng-template>
+            </div>
+          </mat-card>
+        </div>
+       </div>
+      <div class="container_dashboard" *ngIf="noData === false">
+          <div class="child">&nbsp;</div>
+          <div class="child child--featured">
+            <mat-tab-group 
+            [selectedIndex]="parentTabId"
+            (selectedIndexChange)="selectedParentIndexChange($event)">
+              <ng-template #recursiveList let-list>
+                <mat-tab label="{{item.title}}" *ngFor="let item of list" >
+                  <mat-tab-group [selectedIndex]="childTabId" *ngIf="item.children && item.children.length > 1" (selectedIndexChange)="selectedChildIndexChange($event, item.id)">
+                    <mat-tab *ngFor="let child of item.children" label="{{child.title}}"></mat-tab>
+                  </mat-tab-group>
+                </mat-tab>
+              </ng-template>
+              <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: list }"></ng-container>
+            </mat-tab-group>
+          </div>
+      </div>
+      <div class="container_dashboard" *ngIf="noData === false">
+        <div class="child-vertical">
+          <app-vertical-mini-tabs
+          *ngIf="listpages.length >0; else elseBlock"
+          [tabs]="listpages"
+          [currentTab]="1"
+          [verticalTextminheight]="'200px'"
+          [currentTabwidth]="'40px'"
+          (tabClicked)="clickOntabVertical($event)">
+         </app-vertical-mini-tabs>
+         <ng-template #elseBlock>
+          <div class="emtpy_pages"></div>
+         </ng-template>
+        </div>
+        <div style="height: 1200px;" [ngStyle]="{'height.px':heightdashboard}" class="child child--featured">
+            <spotfire-viewer  *ngIf="showspotfire==true"
+            [url]="urlproccu"
+            [path]="pathcurrpro"
+            [parameters]="paramprocu"
+            [customization]="cust"
+            [maxRows]="50"
+            (markingEvent)="onMarking($event)"
+            (document)="document = $event" 
+            [debug]="false">
+            </spotfire-viewer>
+        </div>
+    </div>
+</div>
+
+<div id="myloading" class="loadingClass"[ngStyle]="{'position':showspotfire === true ? 'relative' : 'fixed' }" >
+  <app-loading *ngIf="showLoading"></app-loading>
+</div>
+
+
+
+
+
